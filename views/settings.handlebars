@@ -1,0 +1,103 @@
+<h2 class="title">My profile</h2>
+
+<form method="post" action="/settings/updateProfile" data-toggle="validator" role="form">
+    <input type="hidden" name="_csrf" value={{csrfToken}} />
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4 col-centered">
+                <label>City</label>
+                <div class="input-group">    
+                    <span class="input-group-addon">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </span>
+                    <input type="text" maxlength="50"  class="form-control" name="city" placeholder="{{user.city}}" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4 col-centered">
+                <label>State</label>
+                <div class="input-group">    
+                    <span class="input-group-addon">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </span>    
+                    <input type="text" maxlength="50" class="form-control" name="state" placeholder="{{user.state}}" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4 col-centered">
+                <label>Country</label>
+                <div class="input-group">    
+                    <span class="input-group-addon">
+                        <i class="fa fa-globe" aria-hidden="true"></i>
+                    </span>    
+                    <input type="text" maxlength="50" class="form-control" name="country" placeholder="{{user.country}}" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin:auto; text-align:center">
+        <button type="submit" class="btn btn-md btn-success">Submit </button>
+    </div>
+</form>
+
+<form name="settingsForm" method="post" action="/settings/updatePassword" data-toggle="validator" role="form">
+    <input type="hidden" name="_csrf" value={{csrfToken}} />
+
+    <h3 style="text-align:center; margin-top:2%">Set New Password</h3>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col col-md-4 col-centered">
+                <label for="inputPassword" class="control-label">Current password</label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                    </span>
+                    <input type="password" name="password" minlength="6" maxlength="10" class="form-control" id="inputPass" placeholder="Current Password" required>
+                </div>
+                <div class="help-block with-erros"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="row">
+            <div class="col col-md-4 col-centered">
+                <label for="inputPassword" class="control-label">New password</label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                    </span>
+                    <input type="password" name="password1" minlength="6" maxlength="10" class="form-control" id="inputPassword" placeholder="New password" required>
+                </div>
+                <div class="help-block" >Minimum 6 characters</div> 
+                <div class="help-block with-erros"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-centered col-md-4">
+                <label for="confirmPassword" class="control-label">Confirm password</label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                    </span>
+                    <input type="password" name="password2" class="form-control" id="inputPasswordConfirm" minlength="6" maxlength="10"  data-match="#inputPassword" data-match-error="Oops password do not match"
+                        placeholder="Confirm new password" required>
+                </div>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+    </div>
+    <div style="margin: auto; text-align:center">
+        <button type="submit" class="btn btn-md btn-success"><i class="fa fa-pencil" aria-hidden="true"></i> Update</button>
+    </div>
+</form>

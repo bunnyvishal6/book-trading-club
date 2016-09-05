@@ -1,0 +1,47 @@
+{
+  "Name": "bunny-book-trading-club",
+  "version": "1.0.0",
+  "description": "This is a book trading club",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bunnyvishal6/book-trading-club.git"
+  },
+  "author": "Bunny Vishal",
+  "website": "https://www.bunnyvishal.com",
+  "keywords": [
+    "full stack",
+    "Node",
+    "javascript",
+    "image",
+    "search",
+    "abstraction",
+    "layer"
+  ],
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "4.4.5",
+    "npm": "3.9.5"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.15.2",
+    "client-sessions": "^0.7.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.14.0",
+    "express-validator": "^2.20.8",
+    "mongodb": "^2.2.4",
+    "mongoose": "^4.5.7",
+    "node-gyp": "^3.4.0",
+    "rebuild": "^0.1.2",
+    "request": "^2.74.0"
+  }
+}

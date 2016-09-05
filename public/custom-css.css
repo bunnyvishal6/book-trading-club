@@ -1,0 +1,104 @@
+@import 'https://fonts.googleapis.com/css?family=Baloo+Paaji';
+
+body{
+    padding-top: 3em;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+
+#main-heading{
+    margin: 2% auto;
+    color: #1A72CB;
+    text-align: center;
+    font-family: Baloo Paaji;
+}
+
+#foot{
+    text-align:center;
+    margin-top: 5em;
+}
+
+.title{
+    text-align: center;
+    margin: auto auto 2% auto;
+}
+
+.new-book-add-btn{
+    margin: 2% auto;
+    text-align: center;
+}
+
+#newBookAdd{
+    display: inline-block;
+    margin-right: 4%;
+}
+
+
+.ui-dialog-titlebar-close {
+  visibility: hidden; 
+}
+
+.ui-widget-header {
+  background-color: #9B9B9B;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  font-size: 1.5em; 
+}
+
+
+#popup1 {
+  display: none;
+  background-color: #D5D6D6;
+  padding: 2%;
+  border-radius: 10px;
+  text-align: left; 
+  color: black;
+}
+
+.book-image{
+  height: 12em;
+  width: 10em;
+  border-radius: 1em;
+}
+
+ .cover {
+  display: inline-block;
+  margin: auto 1% 2% auto;  
+  text-align: center;
+
+}
+    
+.close-btn {
+  float: none;
+  vertical-align: top;
+  margin-left: -27px;
+  border-radius: 50%;
+  opacity: 0.2;
+}
+
+.close-btn:hover, .cover:hover{
+  opacity: 1;
+  cursor: pointer;
+}
+
+.cover:hover .close-btn{
+  opacity: 1
+}
+
+
+
+.tag{
+  width: 10em;
+  overflow: hidden;
+  background-color: gray;
+  border-radius: 5em;
+  margin-top: 2%;
+  color: white;
+}
+

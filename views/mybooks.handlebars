@@ -1,0 +1,71 @@
+<h3 class="title">My Books</h3>
+
+{{#if info}}
+<div class="row">
+    <div class="col col-md-8 col-centered">
+        <div class="alert alert-info alert-dismissible" style="text-align:center">
+            {{info}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+<div class="title">
+    <button id="addNewBook" class="btn btn-sm btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> &nbsp; Add new book</button>
+</div>
+
+<div id="popup1" title="&nbsp;&nbsp;&nbsp;Add New Book">
+    <form method="POST" style="margin-bottom:4%" action="/mybooks/addNewBook" data-toggle="validator" role="form">
+        <input type="hidden" name="_csrf" value={{csrfToken}} />
+        <div class="form-group">
+            <label>Book name</label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                    </span>
+                <input type="text" maxlength="60" class="form-control" name="bookName" placeholder="New book name" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Author</label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </span>
+                <input type="text" maxlength="60" class="form-control" name="author" placeholder="Author name" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Cover page url</label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                    </span>
+                <input type="url" maxlength="100" class="form-control" name="coverPageUrl" placeholder="Cover page url">
+            </div>
+        </div>
+
+        <div class="new-book-add-btn">
+            <button id="newBookAdd" class="btn btn-sm btn-primary" type="submit">Add</button>
+            <button type="button" id="poup1Close" class="btn btn-sm btn-danger">Close</button>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col col-md-8 col-centered">
+        <div style="text-align:center">
+            {{# each user.books}}
+                <div class="cover">
+                    <a style="text-decoration:none"><img src="{{this.coverPageUrl}}" onerror="this.src='/public/images/img-not-available.jpg';" class="book-image" />
+                        <button onclick="post('/mybooks/removeBook', 
+                        {_csrf: '{{../csrfToken}}', number: {{this.number}}, ownedBy: '{{this.ownedBy}}'})" 
+                        class="btn btn-xs btn-danger close-btn"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        <div class="tag">{{this.bookName}}</div>
+                    </a>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
