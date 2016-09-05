@@ -118,8 +118,42 @@ router.post('/signup', function (req, res) {
 //get allbooks
 router.get('/allbooks', function (req, res) {
     if (req.session && req.session.user) {
-        res.locals.user = req.session.user;
-        res.render('allbooks', { csrfToken: req.csrfToken() });
+        User.findOne({ email: req.session.user.email }, function (err, user) {
+            if (err) {
+                console.error(err);
+                req.flash("error_msg", "You are not logged in! Please login first.");
+                res.redirect('/login');
+                return;
+            } else if (user) {
+                req.session.user = {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    requestsIn: user.requestsIn,
+                    requestsOut: user.requestsOut,
+                    city: user.city,
+                    state: user.state,
+                    country: user.country,
+                    books: user.books
+                };
+                res.locals.user = req.session.user;
+                User.find({}).select({ _id: 0, books: 1 }).exec(function (err, data) {
+                    if (err) {
+                        console.error(err);
+                        req.flash("error_msg", "Oops! something bad happened. please login again.");
+                        res.redirect('/login');
+                    } else if (data) {
+                        console.log(data);
+                        res.render("allbooks", { allBooks: data, csrfToken: req.csrfToken() })
+                    } else {
+                        res.render('allbooks', { info: "Oops! no one added books yet." });
+                    }
+                })
+            } else {
+                req.flash("error_msg", "Oops! something bad happened. please login again.");
+                res.redirect('/login');
+            }
+        });
     } else {
         req.flash("error_msg", "You are not logged in! Please login first.");
         res.redirect('/login');
@@ -278,7 +312,6 @@ router.post('/mybooks/addNewBook', function (req, res) {
 
 
 router.post('/mybooks/removeBook', function (req, res) {
-    console.log(req.body);
     if (req.session && req.session.user) {
         User.findOne({ email: req.session.user.email }, function (err, user) {
             if (err) {

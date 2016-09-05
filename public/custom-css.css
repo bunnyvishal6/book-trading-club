@@ -11,7 +11,7 @@ body{
 
 
 #main-heading{
-    margin: 2% auto;
+    margin: 2% auto 1% auto;
     color: #1A72CB;
     text-align: center;
     font-family: Baloo Paaji;
@@ -19,13 +19,10 @@ body{
 
 #foot{
     text-align:center;
-    margin-top: 5em;
+    margin-top: 4em;
 }
 
-.title{
-    text-align: center;
-    margin: auto auto 2% auto;
-}
+
 
 .new-book-add-btn{
     margin: 2% auto;
@@ -82,14 +79,29 @@ body{
   opacity: 0.2;
 }
 
+.retweet-btn {
+  float: none;
+  vertical-align: top;
+  margin-left: -30px;
+  border-radius: 50%;
+  opacity: 0.2;
+}
+
 .close-btn:hover, .cover:hover{
   opacity: 1;
   cursor: pointer;
 }
 
+
+
 .cover:hover .close-btn{
   opacity: 1
 }
+
+.cover:hover .retweet-btn{
+  opacity: 1
+}
+
 
 
 

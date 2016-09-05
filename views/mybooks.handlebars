@@ -1,4 +1,4 @@
-<h3 class="title">My Books</h3>
+<h3 class="text-center">My Books</h3>
 
 {{#if info}}
 <div class="row">
@@ -11,8 +11,10 @@
 </div>
 {{/if}}
 
-<div class="title">
-    <button id="addNewBook" class="btn btn-sm btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> &nbsp; Add new book</button>
+<div style="margin-bottom:2%; text-align:center">
+    <div id="outstandingTradeRequests" style="display: inline-block; margin:2% auto auto auto" class="btn btn-sm btn-success "><i class="fa fa-arrow-up" aria-hidden="true"></i> &nbsp; Your trade requests ({{user.requestsOut.length}} outstading)</div>
+    &nbsp;<div id="addNewBook" style="display: inline-block; margin:2% auto auto auto" class=" btn btn-sm btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> &nbsp; Add new book</div>&nbsp;
+    <div id="unapprovedTradeRequests" style="display: inline-block; margin:2% auto auto auto" class="btn btn-sm btn-success"><i class="fa fa-arrow-down" aria-hidden="true"></i> &nbsp; Trade requests for you ({{user.requestsIn.length}} unapproved)</div>
 </div>
 
 <div id="popup1" title="&nbsp;&nbsp;&nbsp;Add New Book">
@@ -53,10 +55,10 @@
     </form>
 </div>
 
-<div class="row">
+<div class="row" style="margin-top:3%">
     <div class="col col-md-8 col-centered">
         <div style="text-align:center">
-            {{# each user.books}}
+            {{#each user.books}}
                 <div class="cover">
                     <a style="text-decoration:none"><img src="{{this.coverPageUrl}}" onerror="this.src='/public/images/img-not-available.jpg';" class="book-image" />
                         <button onclick="post('/mybooks/removeBook', 
