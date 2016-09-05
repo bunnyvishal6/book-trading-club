@@ -4,5 +4,4 @@
 
 ### To do:
 
-* Display all available books.
 * Implement request for trade and accept for trade request system. 
