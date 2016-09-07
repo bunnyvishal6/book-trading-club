@@ -1,15 +1,19 @@
+<h3 class="text-center">All books</h3>
 <div class="row" style="margin-top:3%">
     <div class="col col-md-10 col-centered">
         <div style="text-align:center">
             {{#each allBooks}}
                 {{#each this.books}}
-                <div class="cover">
+                <div class="cover" data-toggle="tooltip" data-placement="down" title="Owner: {{this.ownedByName}}">
                     <a style="text-decoration:none"><img src="{{this.coverPageUrl}}" onerror="this.src='/public/images/img-not-available.jpg';" class="book-image" />
-                        <button onclick="post('/allbooks/requestTrade', 
-                        {_csrf: '{{../../csrfToken}}', number: {{this.number}}, ownedBy: '{{this.ownedBy}}', ownedByName: '{{this.ownedByName}}'})" 
-                        class="btn btn-xs btn-success retweet-btn"><i class="fa fa-retweet" aria-hidden="true"></i></button>
+                        {{#unless this.traded}}        
+                            <button onclick="post('/allbooks/requestTrade', 
+                            {_csrf: '{{../../csrfToken}}', id: '{{this._id}}', number: {{this.number}}, ownedBy: '{{this.ownedBy}}', ownedByName: '{{this.ownedByName}}', bookName: '{{this.bookName}}', author:'{{this.author}}'})" 
+                            class="btn btn-xs btn-success retweet-btn"><i class="fa fa-retweet" aria-hidden="true"></i>
+                            </button>
+                        {{/unless}}
                         <div class="tag">{{this.bookName}}</div>
-                        <div class="tag">By: {{this.author}}</div>
+                        <div class="tag">{{this.author}}</div>
                     </a>
                 </div>
                 {{/each}}

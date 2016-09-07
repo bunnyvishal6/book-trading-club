@@ -53,55 +53,65 @@
     </nav>
 
     <div class="container">
-        <h1 id="main-heading">Book Trading Club <hr style="width:70%"/></h1>
-        
+        <h1 id="main-heading">Book Trading Club
+            <hr style="width:70%" />
+        </h1>
+
+
+        {{#if success_msg}}
         <div class="row">
             <div class=" col col-md-10 col-centered">
-                {{#if success_msg}}
-                    <div class="alert alert-success alert-dismissible" style="text-align:center">
-                        {{success_msg}}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                {{/if}}
-
-                {{#if error_msg}}
-                    <div class="alert alert-danger alert-dismissible" style="text-align:center">
-                        {{error_msg}}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                {{/if}}
-
-                {{#if error}}
-                    <div class="alert alert-danger alert-dismissible" style="text-align:center">
-                        {{error}}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                {{/if}}
-
+                <div class="alert alert-success alert-dismissible" style="text-align:center">
+                    {{success_msg}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
             </div>
         </div>
-
+        {{/if}} 
+        {{#if error_msg}}
+        <div class="row">
+            <div class=" col col-md-10 col-centered">
+                <div class="alert alert-danger alert-dismissible" style="text-align:center">
+                    {{error_msg}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        {{#if error}}
+        <div class="row">
+            <div class=" col col-md-10 col-centered">
+                <div class="alert alert-danger alert-dismissible" style="text-align:center">
+                    {{error}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+            </div>
+        </div>
+        {{/if}} 
+        
         {{{body}}}
 
 
-        <footer id="foot">Coded by: <a href="https://www.bunnyvishal.com" target="_blank" style="text-decoration:none">Bunny Vishal</a> with lot of <i class="fa fa-coffee" aria-hidden="true"></i></footer>
+        <footer id="foot">Coded by: <a href="https://www.bunnyvishal.com" target="_blank" style="text-decoration:none">Bunny Vishal</a> with
+           a lot of &nbsp; <i class="fa fa-heart" style="color:#DD0C0C" aria-hidden="true"></i>&nbsp; & &nbsp;<i class="fa fa-coffee" aria-hidden="true"></i></footer>
     </div>
 
     <!-- Latest compiled and minified jQuery -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <!-- jQuery Ui -->
-    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+        crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript for bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
     <!-- Agular Js -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <!-- validator -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
     <!-- App javascrip -->
-    <script type="text/javascript" src="/public/app.js"></script>  
+    <script type="text/javascript" src="/public/app.js"></script>
     <!-- Custom javascrip -->
-    <script type="text/javascript" src="/public/custom-js.js"></script>    
+    <script type="text/javascript" src="/public/custom-js.js"></script>
 </body>
 
 </html>

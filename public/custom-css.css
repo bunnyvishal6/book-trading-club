@@ -103,14 +103,22 @@ body{
 }
 
 
-
-
 .tag{
-  width: 10em;
+  width: 11em;
   overflow: hidden;
   background-color: gray;
   border-radius: 5em;
   margin-top: 2%;
   color: white;
+  padding-left: 3%;
 }
 
+.notification-drop-btn{
+  width: 18em;
+  overflow: hidden;
+}
+
+.notification-drop-btn2{
+  width: 19.7em;
+  overflow: hidden;
+}

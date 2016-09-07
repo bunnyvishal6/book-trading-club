@@ -96,6 +96,7 @@ router.post('/signup', function (req, res) {
                     name: name,
                     email: email,
                     password: password,
+                    number: 1,
                     city: "City name",
                     state: "State name",
                     country: "Country name"
@@ -143,7 +144,6 @@ router.get('/allbooks', function (req, res) {
                         req.flash("error_msg", "Oops! something bad happened. please login again.");
                         res.redirect('/login');
                     } else if (data) {
-                        console.log(data);
                         res.render("allbooks", { allBooks: data, csrfToken: req.csrfToken() })
                     } else {
                         res.render('allbooks', { info: "Oops! no one added books yet." });
@@ -284,7 +284,8 @@ router.post('/mybooks/addNewBook', function (req, res) {
                     author: req.body.author,
                     ownedBy: req.session.user.email,
                     ownedByName: req.session.user.name,
-                    number: req.session.user.books.length + 1
+                    number: user.number,
+                    traded: 0
                 }
                 if (req.body.coverPageUrl) {
                     newbook.coverPageUrl = req.body.coverPageUrl;
@@ -293,13 +294,14 @@ router.post('/mybooks/addNewBook', function (req, res) {
                     newbook.coverPageUrl = "/public/images/img-not-available.jpg";
                     books.push(newbook);
                 }
+                user.number += 1;
                 user.books = books;
                 user.save(function (err) {
                     if (err) {
                         console.error(err);
                     }
                 });
-                req.flash('success_msg', 'You have added a new book successfully');
+                req.flash('success_msg', 'You have added a new book:' + req.body.bookName + 'successfully');
                 res.redirect('/mybooks');
             }
         });
@@ -322,33 +324,113 @@ router.post('/mybooks/removeBook', function (req, res) {
             } else if (user) {
                 var books = user.books;
                 var checkNum = 0;
-                for (var i = 0; i < books.length; i++) {
-                    if (books[i].number === +req.body.number) {
-                        var removed = books.splice((+req.body.number - 1), 1);
-                        user.books = books;
-                        user.save(function (err) {
-                            if (err) {
-                                console.error(err);
-                                req.flash("error_msg", "Oops! something bad happened. please login again");
-                                res.redirect('/login');
-                            }
-                        });
-                        req.flash("success_msg", "The book: " + removed[0].bookName + " is deleted successfully");
-                        res.redirect('/mybooks');
+                User.findOneAndUpdate({ "_id": user._id }, { '$pull': { 'books': { '_id': req.body.id } } }, { new: true }, function (err, doc) {
+                    if (err) {
+                        console.log(err);
+                        req.flash("error_msg", "Oops! something bad happened. please login again");
+                        return res.redirect('/login');
                     } else {
-                        checkNum += 1;
-                        if (checkNum === books.length) {
-                            req.flash("error_msg", "Oops! The book you want to delete is not found!");
-                            res.redirect('/mybooks');
-                        }
+                        req.flash("success_msg", "The book: " + req.body.bookName + " is deleted successfully");
+                        return res.redirect('/mybooks');
                     }
-                }
+                });
             } else {
                 req.session.reset();
                 req.flash("error_msg", "Oops! something bad happened. please login again");
                 res.redirect('/login');
             }
         })
+    }
+});
+
+//This function is used to make a trade request i.e, post /allbooks/requestTrade
+function makingRequest(user1, req, res) {
+    var requestsIn = user1.requestsIn;
+    requestsIn.push({
+        for: req.body.number,
+        forBookName: req.body.bookName,
+        requestedBy: req.session.user.email,
+        requestedByName: req.session.user.name,
+        author: req.body.author
+    });
+    user1.requestsIn = requestsIn;
+    user1.save();
+    User.findOne({ email: req.session.user.email }, function (err, user) {
+        if (err) {
+            console.error(err);
+            req.session.reset();
+            req.flash("error_msg", "Oops! something bad happened. Please login again");
+            return res.redirect("/login");
+        } else if (user) {
+            var requestsOut = user.requestsOut;
+            requestsOut.push({
+                number: req.body.number,
+                bookName: req.body.bookName,
+                ownedBy: req.body.ownedBy,
+                ownedByName: req.body.ownedByName,
+                author: req.body.author
+            });
+            user.requestsOut = requestsOut;
+            User.findOneAndUpdate({ "_id": user1._id, "books._id": req.body.id }, { $set: { "books.$.traded": 1 } }, { new: true }, function (err, doc) {
+                if (err) {
+                    console.log(err);
+                } else if (doc) {
+                    console.log(doc);
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        req.flash("success_msg", "your trade request for the book " + req.body.bookName + " owned by " + req.body.ownedByName + " has been sent successfully");
+                        return res.redirect("/mybooks");
+                    });
+                }
+            });
+        }
+    });
+}
+//Request for trade.
+router.post('/allbooks/requestTrade', function (req, res) {
+    if (req.session && req.session.user) {
+        if (req.session.user.email === req.body.ownedBy) {
+            req.flash("error_msg", "You cannot request yourself for trade!");
+            return res.redirect("/mybooks");
+        } else {
+            User.findOne({ email: req.body.ownedBy }, function (err, user1) {
+                if (err) {
+                    console.error(err);
+                    req.session.reset();
+                    req.flash("error_msg", "Oops! something bad happened. Please login again");
+                    return res.redirect("/login");
+                } else if (user1) {
+                    var requestsInOld = user1.requestsIn;
+                    var checkNum = 0;
+                    if (requestsInOld.length === 0) {
+                        return makingRequest(user1, req, res); //called makingRequest;
+                    } else {
+                        for (var i = 0; i < requestsInOld.length; i++) {
+                            if (requestsInOld[i].for === req.body.number) {
+                                req.flash("error_msg", "Oops! Someone already requested for trade for this book.");
+                                return res.redirect("/mybooks");
+                            } else {
+                                checkNum += 1;
+                                if (checkNum === requestsInOld.length) {
+                                    return makingRequest(user1, req, res); //called makingRequest;
+                                }
+                            }
+                        }
+                    }
+
+                } else {
+                    req.session.reset();
+                    req.flash("error_msg", "Oops! something bad happened. Please login again");
+                    return res.redirect("/login");
+                }
+            });
+        }
+    } else {
+        req.flash('error_msg', "You must login first!");
+        res.redirect('/login');
+        return;
     }
 });
 

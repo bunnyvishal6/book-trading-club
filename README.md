@@ -1,5 +1,5 @@
 #Book Trading Club
-** This is a Book trading club, a MEAN stack project done for Free Code Camp backend project. **
+** This is a voting app, a MEAN stack project done for Free Code Camp backend project. **
 
 
 ### To do:
