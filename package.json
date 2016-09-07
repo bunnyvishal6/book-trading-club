@@ -1,5 +1,5 @@
 {
-  "Name": "bunny-book-trading-club",
+  "Name": "book-trading-club",
   "version": "1.0.0",
   "description": "This is a book trading club",
   "main": "server.js",
@@ -13,10 +13,10 @@
     "full stack",
     "Node",
     "javascript",
-    "image",
-    "search",
-    "abstraction",
-    "layer"
+    "mongodb",
+    "Angular js",
+    "mongoose",
+    "html + css"
   ],
   "scripts": {
     "start": "node server.js"

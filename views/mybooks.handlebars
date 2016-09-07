@@ -15,7 +15,10 @@
                 {{#each user.requestsOut}}
                     <button type="button" class="list-group-item" data-toggle="tooltip" data-placement="down" title="Author: {{this.author}}, Owner: {{this.ownedByName}}">
                         Book: {{this.bookName}}
-                        <span class="badge btn btn-danger" data-toggle="tooltip" data-placement="down" title="Cancel trade request">
+                        <span class="badge btn btn-danger" data-toggle="tooltip" data-placement="down" title="Cancel trade request"
+                            onclick="post('/mybooks/cancelTradeRequest', 
+                            {_csrf: '{{../csrfToken}}', id: '{{this._id}}', number: {{this.number}}, ownedBy: '{{this.ownedBy}}', 
+                            ownedByName: '{{this.ownedByName}}', bookName: '{{this.bookName}}', author:'{{this.author}}'})">
                             <i class="fa fa-times" aria-hidden="true"></i>
                         </span>
                     </button> 
@@ -41,12 +44,18 @@
             {{#if user.requestsIn}}
             <div class="dropdown-menu list-group notification-drop-btn2">
                 {{#each user.requestsIn}}
-                    <button type="button" class="list-group-item" data-toggle="tooltip" data-placement="down" title="requested by: {{this.requestedByName}}, author: {{this.author}}">
+                    <button type="button" class="list-group-item" data-toggle="tooltip" data-placement="down" title="Requested by: {{this.requestedByName}}, Author: {{this.author}}">
                         Book: {{this.forBookName}}
-                        <span class="badge btn btn-success" data-toggle="tooltip" data-placement="down" title="Accept trade request">
+                        <span class="badge btn btn-success" data-toggle="tooltip" data-placement="down" title="Accept trade request"
+                            onclick="post('/mybooks/acceptTradeRequest', 
+                            {_csrf: '{{../csrfToken}}', id: '{{this._id}}', for: {{this.for}}, ownedBy: '{{this.ownedBy}}', 
+                            requestedBy: '{{this.requestedBy}}', forBookName: '{{this.forBookName}}', author:'{{this.author}}'})">
                             <i class="fa fa-check" aria-hidden="true"></i>
                         </span>
-                        <span class="badge btn btn-danger" data-toggle="tooltip" data-placement="down" title="Reject trade request">
+                        <span class="badge btn btn-danger" data-toggle="tooltip" data-placement="down" title="Reject trade request"
+                            onclick="post('/mybooks/rejectTradeRequest', 
+                            {_csrf: '{{../csrfToken}}', id: '{{this._id}}', for: {{this.for}}, ownedBy: '{{this.ownedBy}}', 
+                            requestedBy: '{{this.requestedBy}}', forBookName: '{{this.forBookName}}', author:'{{this.author}}'})">
                             <i class="fa fa-times" aria-hidden="true"></i>
                         </span>                      
                     </button> 
@@ -126,25 +135,6 @@
     </div>
 </div>
 
-<!--
-<div class="panel panel-default" style="width:21em;">
-    <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
-        
-            <a  href="#collapseListGroup1" class="collapsed btn btn-sm btn-primary" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseListGroup1">
-                 <i class="fa fa-arrow-down" aria-hidden="true"></i> 
-                &nbsp; Trade requests for you ({{user.requestsIn.length}} unapproved)
-                <span class="caret"></span>
-            </a>            
-    
-    </div>
-    <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup1" aria-labelledby="collapseListGroupHeading1"
-        aria-expanded="false" style="height: 0px;">
-        <div class="list-group notification-drop-btn2">
-                <button type="button" class="list-group-item">jdlfjldsjfljdslfkjlsadjflsjdfljdsfljfdsf8450848490</button>
-                <button type="button" class="list-group-item">Another action</button>
-        </div>
-    </div>
-</div>
--->
+
 
 

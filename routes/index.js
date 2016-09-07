@@ -58,7 +58,7 @@ router.post('/login', function (req, res) {
                     books: user.books
                 };
                 res.locals.user = req.session.user;
-                res.redirect('/');
+                res.redirect('/mybooks');
             } else {
                 req.flash('error_msg', 'Incorrect username or password');
                 res.redirect('/login');
@@ -187,6 +187,9 @@ router.get('/mybooks', function (req, res) {
                 } else {
                     res.render('mybooks', { csrfToken: req.csrfToken(), info: "You haven't added any books yet" });
                 }
+            } else {
+                req.flash("error_msg", "You are not logged in! Please login first.");
+                res.redirect('/login');
             }
         });
     } else {
@@ -375,7 +378,6 @@ function makingRequest(user1, req, res) {
                 if (err) {
                     console.log(err);
                 } else if (doc) {
-                    console.log(doc);
                     user.save(function (err) {
                         if (err) {
                             console.log(err);
@@ -433,6 +435,130 @@ router.post('/allbooks/requestTrade', function (req, res) {
         return;
     }
 });
+
+
+//Trade request cancelled by the user sent it.
+router.post('/mybooks/cancelTradeRequest', function (req, res) {
+    if (req.session && req.session.user) {
+        User.findOne({ email: req.session.user.email }, function (err, user) {
+            if (err) {
+                console.error(err);
+            } else if (user) {
+                User.findOneAndUpdate({ "_id": user._id }, { '$pull': { 'requestsOut': { '_id': req.body.id } } }, { new: true }, function (err, doc) {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        var bookNum = "" + req.body.number;
+                        User.findOneAndUpdate({ email: req.body.ownedBy }, { '$pull': { 'requestsIn': { 'for': bookNum, 'forBookName': req.body.bookName } } }, { new: true }, function (err, doc) {
+                            if (err) {
+                                console.error(err);
+                            } else {
+                                User.findOneAndUpdate({ email: req.body.ownedBy, "books.number": req.body.number }, { $set: { "books.$.traded": 0 } }, { new: true }, function (err, doc) {
+                                    if (err) {
+                                        console.error(err);
+                                    } else {
+                                        req.flash("success_msg", "Your trade request for the book " + req.body.bookName + " owned by " + req.body.ownedByName + " is cancelled successfully");
+                                        res.redirect("/mybooks");
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                req.flash('error_msg', "You must login first!");
+                res.redirect('/login');
+                return;
+            }
+        });
+    } else {
+        req.flash('error_msg', "You must login first!");
+        res.redirect('/login');
+        return;
+    }
+});
+
+//Accepting trade request
+router.post('/mybooks/rejectTradeRequest', function (req, res) {
+    if (req.session && req.session.user) {
+        User.findOne({ email: req.session.user.email }, function (err, user) {
+            if (err) {
+                console.log(err);
+                req.flash('error_msg', "You must login first!");
+                res.redirect('/login');
+                return;
+            } else if (user) {
+                User.findOneAndUpdate({ email: user.email }, { '$pull': { 'requestsIn': { '_id': req.body.id } } }, { new: true }, function (err, doc) {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        User.findOneAndUpdate({ email: req.body.requestedBy }, { '$pull': { 'requestsOut': { 'number': +req.body.for, 'bookName': req.body.forBookName } } }, { new: true }, function (err, doc) {
+                            if (err) {
+                                console.error(err);
+                            } else {
+                                User.findOneAndUpdate({ email: user.email, "books.number": +req.body.for }, { $set: { "books.$.traded": 0 } }, { new: true }, function (err, doc) {
+                                    if (err) {
+                                        console.error(err);
+                                    } else {
+                                        req.flash("success_msg", "Your Rejection for trade request for the book " + req.body.forBookName + " requested by " + req.body.requestedByName + " is registered successfully");
+                                        res.redirect("/mybooks");
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                req.flash('error_msg', "You must login first!");
+                res.redirect('/login');
+                return;
+            }
+        });
+    } else {
+        req.flash('error_msg', "You must login first!");
+        res.redirect('/login');
+        return;
+    }
+});
+
+//Rejecting trade request
+router.post('/mybooks/acceptTradeRequest', function (req, res) {
+    if (req.session && req.session.user) {
+        User.findOne({ email: req.session.user.email }, function (err, user) {
+            if (err) {
+                console.log(err);
+                req.flash('error_msg', "You must login first!");
+                res.redirect('/login');
+                return;
+            } else if (user) {
+                User.findOneAndUpdate({ email: user.email }, { '$pull': { 'requestsIn': { '_id': req.body.id } } }, { new: true }, function (err, doc) {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        User.findOneAndUpdate({ email: req.body.requestedBy }, { '$pull': { 'requestsOut': { 'number': +req.body.for, 'bookName': req.body.forBookName } } }, { new: true }, function (err, doc) {
+                            if (err) {
+                                console.error(err);
+                            } else {
+                                req.flash("success_msg", "Your acceptance for trade request for the book " + req.body.forBookName + " requested by " + req.body.requestedByName + " is registered successfully");
+                                res.redirect("/mybooks");
+                            }
+                        });
+                    }
+                });
+            } else {
+                req.flash('error_msg', "You must login first!");
+                res.redirect('/login');
+                return;
+            }
+        });
+    } else {
+        req.flash('error_msg', "You must login first!");
+        res.redirect('/login');
+        return;
+    }
+});
+
+
 
 //logout
 router.get('/logout', function (req, res) {

@@ -19,8 +19,20 @@ var User = mongoose.model('User', new Schema({
         number: Number,
         traded: Number,
     }],
-    requestsIn: Array,
-    requestsOut: Array,
+    requestsIn: [{
+        for: String,
+        forBookName: String,
+        requestedBy: String,
+        requestedByName: String,
+        author: String
+    }],
+    requestsOut: [{
+        number: Number,
+        bookName: String,
+        ownedBy: String,
+        ownedByName: String,
+        author: String
+    }],
     city: String,
     state: String,
     country: String
