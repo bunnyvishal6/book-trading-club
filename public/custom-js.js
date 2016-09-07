@@ -7,7 +7,7 @@ $("#popup1").dialog({
   closeOnEscape: false,
   show: {
     effect: "slideDown",
-    duration: 1000,
+    duration: 500,
   },
   position: {
     my: "center",
@@ -16,7 +16,7 @@ $("#popup1").dialog({
   },
   hide: {
     effect: "slideUp",
-    duration: 1000
+    duration: 500
   }
 });
 
