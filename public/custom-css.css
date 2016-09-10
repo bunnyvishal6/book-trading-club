@@ -105,6 +105,7 @@ body{
 
 .tag{
   width: 11em;
+  height: 1.5em;
   overflow: hidden;
   background-color: gray;
   border-radius: 5em;

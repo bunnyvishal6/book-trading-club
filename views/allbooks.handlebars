@@ -4,7 +4,7 @@
         <div style="text-align:center">
             {{#each allBooks}}
                 {{#each this.books}}
-                <div class="cover" data-toggle="tooltip" data-placement="down" title="Owner: {{this.ownedByName}}">
+                <div class="cover" data-toggle="tooltip" data-placement="down" title="Owner: {{this.ownedByName}}, Author: {{this.author}}">
                     <a style="text-decoration:none"><img src="{{this.coverPageUrl}}" onerror="this.src='/public/images/img-not-available.jpg';" class="book-image" />
                         {{#unless this.traded}}        
                             <button onclick="post('/allbooks/requestTrade', 

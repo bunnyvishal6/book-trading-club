@@ -214,7 +214,7 @@ router.get('/settings', function (req, res) {
                     city: user.city,
                     state: user.state,
                     country: user.country,
-                    books: user.books
+                    firstName: user.name.split(' ')[0]
                 }
                 res.render('settings', { csrfToken: req.csrfToken() });
             } else {
@@ -241,6 +241,11 @@ router.post('/settings/updateProfile', function (req, res) {
                 user.city = req.body.city.substring(0, 1).toUpperCase() + req.body.city.substring(1, req.body.city.length).toLowerCase();
                 user.state = req.body.state.substring(0, 1).toUpperCase() + req.body.state.substring(1, req.body.state.length).toLowerCase();
                 user.country = req.body.country.substring(0, 1).toUpperCase() + req.body.country.substring(1, req.body.country.length).toLowerCase();
+                if(req.body.name){
+                    var name = req.body.name;
+                    name = name.substring(0, 1).toUpperCase() + name.substring(1, name.length).toLowerCase();
+                    user.name = name;
+                }
                 user.save(function (err) {
                     if (err) { throw err; }
                 });
