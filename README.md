@@ -1,5 +1,5 @@
 #Book Trading Club
-** A MEAN stack project done for Free Code Camp backend project. **
+** A Full stack project done for Free Code Camp backend project. **
 
 * Here is the url for preview: <https://bunny-book-trading-club.herokuapp.com>
 
