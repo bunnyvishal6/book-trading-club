@@ -9,6 +9,6 @@
 
 * User Story: Authenticated user can add a new book.
 
-* User Story: Authenticated user can update my settings to store my full name, city, and state.
+* User Story: Authenticated user can update my settings to store my city, state and country.
 
 * User Story: Authenticated user can propose a trade and wait for the other user to accept the trade.
